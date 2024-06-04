@@ -1,5 +1,6 @@
 package com.example.xmassignment.data
 
+import com.example.xmassignment.domain.QuestionModel
 import com.example.xmassignment.domain.QuestionRepository
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
