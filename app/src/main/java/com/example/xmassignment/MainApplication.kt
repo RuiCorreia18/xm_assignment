@@ -8,4 +8,5 @@ class MainApplication : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory().create(this)
     }
+
 }
