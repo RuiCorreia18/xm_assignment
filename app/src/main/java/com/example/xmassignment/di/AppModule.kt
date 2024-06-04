@@ -17,12 +17,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): QuestionApi {
+    fun provideRetrofit(): QuestionApi {
         return Retrofit.Builder()
             .baseUrl("https://xm-assignment.web.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
             .build()
             .create(QuestionApi::class.java)
     }
