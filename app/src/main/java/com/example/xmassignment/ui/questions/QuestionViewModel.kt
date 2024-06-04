@@ -26,17 +26,19 @@ class QuestionViewModel @Inject constructor(
     fun handleIntent(intent: QuestionIntent) {
         viewModelScope.launch {
             when (intent) {
-                is QuestionIntent.SubmitAnswer -> {
+                is QuestionIntent.SaveAnswer -> {
                     val questionIndex = state.value.currentQuestion
                     val question = state.value.questions[questionIndex]
                     val questionList = _state.value.questions
                     questionList.find { it.id == question.id }
                         ?.let { it.answer = intent.answer }
 
-                    _state.value = _state.value.copy(
-                        questions = questionList
+                    _state.value = QuestionState(
+                        questions = questionList,
+                        loading = false
                     )
                 }
+                is QuestionIntent.SubmitAnswer -> {}
 
                 QuestionIntent.FetchQuestion -> fetchQuestions()
                 QuestionIntent.OnNext -> incrementCurrentQuestion()

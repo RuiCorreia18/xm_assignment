@@ -33,6 +33,7 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
 
     val state by questionViewModel.state.collectAsState()
 
+
     LaunchedEffect(questionViewModel) {
         questionViewModel.handleIntent(QuestionIntent.FetchQuestion)
     }
@@ -56,6 +57,8 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
             state.questions.isNotEmpty() -> {
 
                 val question = state.questions[state.currentQuestion]
+                var answer by remember { mutableStateOf("") }
+                answer = question.answer.orEmpty()
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -75,14 +78,20 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
                     Spacer(modifier = Modifier.weight(1f))
 
                     Button(
-                        onClick = { questionViewModel.handleIntent(QuestionIntent.OnPrevious) }/*onPreviousClick*/,
+                        onClick = {
+                            answer = ""
+                            questionViewModel.handleIntent(QuestionIntent.OnPrevious)
+                        },
                         enabled = question.id > 1
                     ) {
                         Text(text = "Previous")
                     }
 
                     Button(
-                        onClick = { questionViewModel.handleIntent(QuestionIntent.OnNext) },
+                        onClick = {
+                            answer = ""
+                            questionViewModel.handleIntent(QuestionIntent.OnNext)
+                        },
                         enabled = currentQuestionIndex < totalQuestions
                     ) {
                         Text(text = "Next")
@@ -102,19 +111,21 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
                 Text(text = question.question)
                 Spacer(modifier = Modifier.height(16.dp))
 
+
                 // Answer Textfield
-                var answer by remember { mutableStateOf(question.answer.orEmpty()) }
                 TextField(
                     value = answer,
-                    onValueChange = { answer = it },
+                    onValueChange = { newValue ->
+                        answer = newValue
+                        questionViewModel.handleIntent(QuestionIntent.SaveAnswer(newValue))
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 val isSubmitted = question.isSubmitted
-                // Submit Button
                 Button(
-                    onClick = { questionViewModel.handleIntent(QuestionIntent.SubmitAnswer(answer)) },
+                    onClick = { questionViewModel.handleIntent(QuestionIntent.SubmitAnswer(question)) },
                     enabled = !isSubmitted,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -123,5 +134,4 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
             }
         }
     }
-
 }
