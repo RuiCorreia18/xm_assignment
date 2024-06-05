@@ -4,8 +4,8 @@ import com.example.xmassignment.domain.QuestionModel
 
 data class QuestionState (
     val error: String? = null,
-    val loading: Boolean = true,
+    val loading: Boolean = false,
     val currentQuestion: Int = 0,
-    val questions: List<QuestionModel>
+    val questions: List<QuestionModel> = emptyList()
 )
 

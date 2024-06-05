@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //(this.application as MainApplication).appComponent.inject(this)
         (this.application as MainApplication).appComponent.inject(this)
 
         setContent {
@@ -51,20 +50,7 @@ class MainActivity : AppCompatActivity() {
                             InitialScreen(navController)
                         }
                         composable(QUESTION_PAGE) {
-                            /*val viewModel: QuestionViewModel = viewModel(
-                                factory = object : ViewModelProvider.Factory {
-                                    override fun <T : ViewModel> create(
-                                        modelClass: Class<T>,
-                                        extras: CreationExtras,
-                                    ): T {
-                                        return modelClass.getConstructor(QuestionRepository::class.java)
-                                            .newInstance()
-                                    }
-                                }
-                            )*/
-
-
-                            QuestionsScreen(viewModel)
+                            QuestionsScreen(viewModel, navController)
                         }
                     }
                 }
@@ -81,7 +67,7 @@ fun InitialScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = { navController.navigate("question") }
+            onClick = { navController.navigate(QUESTION_PAGE) }
         ) {
             Text(text = "Start Survey")
         }

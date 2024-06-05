@@ -26,10 +26,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.xmassignment.Destinations
+import com.example.xmassignment.Destinations.START_PAGE
 
 
 @Composable
-fun QuestionsScreen(questionViewModel: QuestionViewModel) {
+fun QuestionsScreen(questionViewModel: QuestionViewModel, navController: NavHostController) {
 
     val state by questionViewModel.state.collectAsState()
 
@@ -64,7 +67,7 @@ fun QuestionsScreen(questionViewModel: QuestionViewModel) {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = {}/*onBackClick*/) {
+                    IconButton(onClick = { navController.navigate(START_PAGE)}) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back"
