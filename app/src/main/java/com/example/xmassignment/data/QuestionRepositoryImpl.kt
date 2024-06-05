@@ -17,7 +17,7 @@ class QuestionRepositoryImpl @Inject constructor(
     override fun postAnswer(question: QuestionModel): Completable {
         val answerBody = AnswerBody(
             id = question.id,
-            answer = question.answer!!
+            answer = question.answer
         )
         return remoteDataSource.postAnswer(answerBody)
     }
